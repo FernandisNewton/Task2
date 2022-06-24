@@ -8,6 +8,7 @@
           type="search"
           placeholder="Search"
           aria-label="Search"
+          (keyup)="setName($event)"
         />
         <button
           (click)="searchArtists($event)"
@@ -21,21 +22,32 @@
     <div class="col-sm-2"></div>
   </div>
 
+  <ng-container *ngIf="isLoading">
+    <div class="row d-flex justify-content-center mt-5">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-container>
   <div id="card_container" class="row flex-row flex-nowrap mt-5">
     <div
-      *ngFor="let artist of artistInfo | async"
+      *ngFor="let artist of artistInfo"
       class="col-12 col-sm-6 col-md-4 col-lg-3"
     >
-      <div class="card">
+      <div (click)="onCardClick(artist)" class="card">
         <img
-          src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+          src="{{ artist._links.thumbnail.href }}"
           class="card-img-top"
           alt="..."
         />
         <div class="card-body bg-info">
-          <p class="card-text">Pablo</p>
+          <p class="card-text">{{ artist.title }}</p>
         </div>
       </div>
     </div>
   </div>
+
+  <app-artist-info [artistInfo] = "artistBio.artistInfo" *ngIf="artistBio" ></app-artist-info>
+  <app-artworks *ngIf="artistBio" [artworks] = "artistBio.artworks"></app-artworks>
 </div>
+

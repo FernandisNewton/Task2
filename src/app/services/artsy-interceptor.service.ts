@@ -15,7 +15,8 @@ import { tap } from 'rxjs';
 export class ArtsyInterceptorService implements HttpInterceptor {
   constructor(private http: HttpClient) {}
 
-  token?: Observable<any>;
+   
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler

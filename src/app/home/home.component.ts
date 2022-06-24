@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ArtsyService } from '../services/artsy.service';
 @Component({
   selector: 'app-home',
@@ -7,14 +8,36 @@ import { ArtsyService } from '../services/artsy.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private artsyService: ArtsyService) {}
+  artistInfo?: any[];
+  artistName?: string;
+  isLoading?: boolean;
+  artistBio?: any;
 
   ngOnInit(): void {}
-  artistInfo: any;
+
+  setName(event: any) {
+    this.artistName = event.target.value;
+  }
+
   searchArtists(event: any) {
     event.preventDefault();
-    console.log('service');
+    this.isLoading = true;
+    this.artsyService.getArtists(this.artistName).subscribe(
+      (results: any) => {
+        this.artistInfo = results;
+      },
+      (error: any) => {
+        console.log(error);
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
+  }
 
-    this.artistInfo = this.artsyService.getArtists();
-    console.log(this.artistInfo);
+  onCardClick(artist: any) {
+    this.artsyService.getArtistInfo(artist).subscribe((value: any) => {
+      this.artistBio = value;
+    });
   }
 }

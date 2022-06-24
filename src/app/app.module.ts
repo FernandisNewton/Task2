@@ -8,10 +8,14 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ArtsyInterceptorService } from './services/artsy-interceptor.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ArtistInfoComponent } from './artist-info/artist-info.component';
+import { ArtworksComponent } from './artworks/artworks.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, ArtistInfoComponent, ArtworksComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatTabsModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
