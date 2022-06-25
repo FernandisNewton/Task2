@@ -10,12 +10,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ArtsyInterceptorService } from './services/artsy-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialogModule} from '@angular/material/dialog';
 import { ArtistInfoComponent } from './artist-info/artist-info.component';
 import { ArtworksComponent } from './artworks/artworks.component';
+import { CategoryModalComponent } from './category-modal/category-modal.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, ArtistInfoComponent, ArtworksComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatTabsModule],
+  declarations: [AppComponent, NavbarComponent, FooterComponent, HomeComponent, ArtistInfoComponent, ArtworksComponent, CategoryModalComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule,MatTabsModule,MatDialogModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

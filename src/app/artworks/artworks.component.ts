@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryModalComponent } from '../category-modal/category-modal.component';
 import { ArtsyService } from '../services/artsy.service';
 
 @Component({
@@ -8,12 +10,20 @@ import { ArtsyService } from '../services/artsy.service';
 })
 export class ArtworksComponent implements OnInit {
  @Input() artworks:any;
-  constructor(private artsyService: ArtsyService) { }
+ 
+  constructor(private artsyService: ArtsyService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
-  fetchGenes(art:any){
-    this.artsyService.getGenes(art)
-    
-  }
+
+
+  openDialog(art:any) {
+    const dialogRef = this.dialog.open(CategoryModalComponent,{
+      data:art
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+}
 }

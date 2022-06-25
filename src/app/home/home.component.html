@@ -36,7 +36,7 @@
     >
       <div (click)="onCardClick(artist)" class="card">
         <img
-          src="{{ artist._links.thumbnail.href }}"
+          src="{{ artist._links.thumbnail.href}}" 
           class="card-img-top"
           alt="..."
         />
@@ -46,8 +46,27 @@
       </div>
     </div>
   </div>
+  <mat-tab-group class="mt-5" style='min-height:400px' *ngIf="showTabs"  mat-align-tabs="center">
+    <mat-tab label="Artist Info">
+      <app-artist-info
+        [artistInfo]="artistBio.artistInfo"
+        *ngIf="artistBio else loading"
+      ></app-artist-info>
+    </mat-tab>
+    <mat-tab label="Artowrks">
+        <app-artworks
+        *ngIf="artistBio else loading"
+        [artworks]="artistBio.artworks"
+      ></app-artworks>
+    </mat-tab>
+  </mat-tab-group>
 
-  <app-artist-info [artistInfo] = "artistBio.artistInfo" *ngIf="artistBio" ></app-artist-info>
-  <app-artworks *ngIf="artistBio" [artworks] = "artistBio.artworks"></app-artworks>
+  <ng-template #loading>
+    <div class="row d-flex justify-content-center mt-5">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
+
 </div>
-

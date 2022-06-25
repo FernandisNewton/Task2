@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { CategoryModalComponent } from '../category-modal/category-modal.component';
 import { ArtsyService } from '../services/artsy.service';
 @Component({
   selector: 'app-home',
@@ -12,6 +14,7 @@ export class HomeComponent implements OnInit {
   artistName?: string;
   isLoading?: boolean;
   artistBio?: any;
+  showTabs:boolean = false;
 
   ngOnInit(): void {}
 
@@ -36,8 +39,11 @@ export class HomeComponent implements OnInit {
   }
 
   onCardClick(artist: any) {
+    this.showTabs = true;
     this.artsyService.getArtistInfo(artist).subscribe((value: any) => {
       this.artistBio = value;
     });
   }
+
+
 }

@@ -53,8 +53,8 @@ export class ArtsyService {
   }
 
   getGenes(art: any) {
-    console.log(art._links.genes.href);
-    this.http
+     
+    let genes$ = this.http
       .get(art._links.genes.href)
       .pipe(
         map((response: any) => {
@@ -64,6 +64,8 @@ export class ArtsyService {
           console.log(data);
         })
       )
-      .subscribe();
+    
+    return genes$;
+
   }
 }
