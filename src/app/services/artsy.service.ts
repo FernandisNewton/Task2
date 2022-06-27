@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, forkJoin, map, Observable, tap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class ArtsyService {
 
   getArtists(artistName: any): Observable<any[]> {
     console.log('Inside getArtsy');
-    let fetch$ = this.http
+    let result$ = this.http
       .get(`https://api.artsy.net/api/search?q=${artistName}&size=10`)
       .pipe(
         map((response: any) => {
@@ -20,7 +20,7 @@ export class ArtsyService {
           console.log(data);
         })
       );
-    return fetch$;
+    return result$;
   }
 
   getArtistInfo(artist: any) {
@@ -31,7 +31,7 @@ export class ArtsyService {
         map((response: any) => {
           return response;
         }),
-        catchError((err, caught) => err),
+        catchError((err, caught) => of(err)),
         tap((data: any) => {
           console.log(data);
         })
@@ -42,7 +42,7 @@ export class ArtsyService {
           map((response: any) => {
             return response;
           }),
-          catchError((err, caught) => err),
+          catchError((err, caught) => of('Error')),
           tap((data: any) => {
             console.log(data);
           })
@@ -53,19 +53,15 @@ export class ArtsyService {
   }
 
   getGenes(art: any) {
-     
-    let genes$ = this.http
-      .get(art._links.genes.href)
-      .pipe(
-        map((response: any) => {
-          return response._embedded.genes;
-        }),
-        tap((data: any) => {
-          console.log(data);
-        })
-      )
-    
-    return genes$;
+    let genes$ = this.http.get(art._links.genes.href).pipe(
+      map((response: any) => {
+        return response._embedded.genes;
+      }),
+      tap((data: any) => {
+        console.log(data);
+      })
+    );
 
+    return genes$;
   }
 }

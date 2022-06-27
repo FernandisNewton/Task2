@@ -13,6 +13,7 @@ export class CategoryModalComponent implements OnInit {
   ) {}
 
   genesData?: any[];
+  
   ngOnInit(): void {
     this.artsyService.getGenes(this.data).subscribe((value: any) => {
       this.genesData = value;

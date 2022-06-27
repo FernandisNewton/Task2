@@ -8,15 +8,15 @@ import { ArtsyService } from '../services/artsy.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent   {
   constructor(private artsyService: ArtsyService) {}
-  artistInfo?: any[];
+  artistInfo: any[] =[];
   artistName?: string;
   isLoading?: boolean;
   artistBio?: any;
   showTabs:boolean = false;
 
-  ngOnInit(): void {}
+   
 
   setName(event: any) {
     this.artistName = event.target.value;
