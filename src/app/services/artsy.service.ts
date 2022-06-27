@@ -31,7 +31,7 @@ export class ArtsyService {
         map((response: any) => {
           return response;
         }),
-        catchError((err, caught) => of(err)),
+        catchError((err, caught) => err),
         tap((data: any) => {
           console.log(data);
         })
@@ -42,7 +42,7 @@ export class ArtsyService {
           map((response: any) => {
             return response;
           }),
-          catchError((err, caught) => of('Error')),
+          catchError((err, caught) => err),
           tap((data: any) => {
             console.log(data);
           })
