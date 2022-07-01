@@ -1,12 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  debounceTime,
-  fromEvent,
-  Observable,
-  distinctUntilChanged,
-  filter,
-} from 'rxjs';
+import {} from 'rxjs';
 import { CategoryModalComponent } from '../category-modal/category-modal.component';
 import { ArtsyService } from '../services/artsy.service';
 @Component({
@@ -14,30 +8,20 @@ import { ArtsyService } from '../services/artsy.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
-  @ViewChild('searchInput') inputElement?: ElementRef;
+export class HomeComponent {
   constructor(private artsyService: ArtsyService) {}
 
-  ngOnInit(): void {}
+  debounce = (func: any, delay: any) => {
+    let debounceTimer: any;
 
-  ngAfterViewInit() {
-    fromEvent(this.inputElement?.nativeElement, 'keyup')
-      .pipe(filter(Boolean), debounceTime(500), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.isLoading = true;
-        this.artsyService.getArtists(value.target.value).subscribe({
-          next: (results: any) => {
-            this.artistInfo = results;
-          },
-          error: (error: any) => {
-            console.log(error);
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      });
-  }
+    return () => {
+      const context = this;
+      const args = HomeComponent.arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
   artistInfo: any[] = [];
   artistName?: string;
   isLoading?: boolean;
@@ -45,13 +29,30 @@ export class HomeComponent implements OnInit {
   showTabs: boolean = false;
 
   setName(event: any) {
-    this.artistName = event.target.value;
+   // this.artistName = event.target.value;
+    this.debounce(this.searchArtists2(event.target.value),500);
   }
 
   searchArtists(event: any) {
     event.preventDefault();
     this.isLoading = true;
     this.artsyService.getArtists(this.artistName).subscribe(
+      (results: any) => {
+        this.artistInfo = results;
+      },
+      (error: any) => {
+        console.log(error);
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
+  }
+
+  searchArtists2(name:any) {
+     
+    this.isLoading = true;
+    this.artsyService.getArtists(name).subscribe(
       (results: any) => {
         this.artistInfo = results;
       },
