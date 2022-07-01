@@ -9,6 +9,7 @@
           placeholder="Search"
           aria-label="Search"
           (keyup)="setName($event)"
+          #searchInput
         />
         <button
           (click)="searchArtists($event)"

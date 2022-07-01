@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import {
+  debounceTime,
+  fromEvent,
+  Observable,
+  distinctUntilChanged,
+  filter,
+} from 'rxjs';
 import { CategoryModalComponent } from '../category-modal/category-modal.component';
 import { ArtsyService } from '../services/artsy.service';
 @Component({
@@ -8,15 +14,35 @@ import { ArtsyService } from '../services/artsy.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent   {
+export class HomeComponent implements OnInit {
+  @ViewChild('searchInput') inputElement?: ElementRef;
   constructor(private artsyService: ArtsyService) {}
-  artistInfo: any[] =[];
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    fromEvent(this.inputElement?.nativeElement, 'keyup')
+      .pipe(filter(Boolean), debounceTime(500), distinctUntilChanged())
+      .subscribe((value: any) => {
+        this.isLoading = true;
+        this.artsyService.getArtists(value.target.value).subscribe({
+          next: (results: any) => {
+            this.artistInfo = results;
+          },
+          error: (error: any) => {
+            console.log(error);
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
+      });
+  }
+  artistInfo: any[] = [];
   artistName?: string;
   isLoading?: boolean;
   artistBio?: any;
-  showTabs:boolean = false;
-
-   
+  showTabs: boolean = false;
 
   setName(event: any) {
     this.artistName = event.target.value;
@@ -44,6 +70,4 @@ export class HomeComponent   {
       this.artistBio = value;
     });
   }
-
-
 }

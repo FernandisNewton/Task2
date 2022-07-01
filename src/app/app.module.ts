@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
- 
+
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ArtsyInterceptorService } from './services/artsy-interceptor.service';
@@ -18,7 +18,7 @@ import { CategoryModalComponent } from './category-modal/category-modal.componen
   declarations: [
     AppComponent,
     NavbarComponent,
-    
+
     HomeComponent,
     ArtistInfoComponent,
     ArtworksComponent,
