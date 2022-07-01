@@ -14,11 +14,11 @@ import { ArtsyService } from '../services/artsy.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   @ViewChild('searchInput') inputElement?: ElementRef;
   constructor(private artsyService: ArtsyService) {}
 
-  ngOnInit(): void {}
+  
 
   ngAfterViewInit() {
     fromEvent(this.inputElement?.nativeElement, 'keyup')
