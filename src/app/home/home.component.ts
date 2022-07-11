@@ -1,75 +1,70 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   debounceTime,
   fromEvent,
-  Observable,
-  distinctUntilChanged,
-  filter,
+  Subject,
+  takeUntil
 } from 'rxjs';
-import { CategoryModalComponent } from '../category-modal/category-modal.component';
 import { ArtsyService } from '../services/artsy.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy{
   @ViewChild('searchInput') inputElement?: ElementRef;
+
+  private destroy$ = new Subject();
+
   constructor(private artsyService: ArtsyService) {}
-
-  
-
-  ngAfterViewInit() {
-    fromEvent(this.inputElement?.nativeElement, 'keyup')
-      .pipe(filter(Boolean), debounceTime(500), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.isLoading = true;
-        this.artsyService.getArtists(value.target.value).subscribe({
-          next: (results: any) => {
-            this.artistInfo = results;
-          },
-          error: (error: any) => {
-            console.log(error);
-            this.isLoading = false;
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
-      });
-  }
   artistInfo: any[] = [];
   artistName?: string;
   isLoading?: boolean;
   artistBio?: any;
   showTabs: boolean = false;
 
-  setName(event: any) {
-    this.artistName = event.target.value;
+  ngAfterViewInit() {
+    fromEvent(this.inputElement?.nativeElement, 'keyup')
+      .pipe(debounceTime(500),takeUntil(this.destroy$))
+      .subscribe((input: any) => {
+        this.isLoading = true;
+        this.artistName = input.target.value;
+        this.searchArtists();
+      });
   }
 
-  searchArtists(event: any) {
-    event.preventDefault();
+
+  
+  searchArtists() {
     this.isLoading = true;
-    this.artsyService.getArtists(this.artistName).subscribe(
-      (results: any) => {
+    this.artsyService.getArtists(this.artistName).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (results: any) => {
         this.artistInfo = results;
       },
-      (error: any) => {
+      error: (error: any) => {
         console.log(error);
         this.isLoading = false;
       },
-      () => {
+      complete: () => {
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   onCardClick(artist: any) {
     this.showTabs = true;
-    this.artsyService.getArtistInfo(artist).subscribe((value: any) => {
+    this.artsyService.getArtistInfo(artist).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((value: any) => {
       this.artistBio = value;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(1);
+    this.destroy$.complete();
   }
 }
