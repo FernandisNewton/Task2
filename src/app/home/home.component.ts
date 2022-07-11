@@ -18,16 +18,21 @@ export class HomeComponent implements OnDestroy{
   private destroy$ = new Subject();
 
   constructor(private artsyService: ArtsyService) {}
-  artistInfo: any[] = [];
+  artistInfo: any[] = []
   artistName?: string;
   isLoading?: boolean;
-  artistBio?: any;
+  artistBio?: any = null;
   showTabs: boolean = false;
 
   ngAfterViewInit() {
     fromEvent(this.inputElement?.nativeElement, 'keyup')
       .pipe(debounceTime(500),takeUntil(this.destroy$))
       .subscribe((input: any) => {
+        if(input.target.value.length == 0){
+          console.log("reset");
+          
+          this.resetData();
+        }
         this.isLoading = true;
         this.artistName = input.target.value;
         this.searchArtists();
@@ -35,7 +40,12 @@ export class HomeComponent implements OnDestroy{
   }
 
 
-  
+  resetData() : void{
+    this.artistInfo = []
+    this.artistBio = null;
+    this.showTabs =false;
+    this.isLoading = false;
+  }
   searchArtists() {
     this.isLoading = true;
     this.artsyService.getArtists(this.artistName).pipe(
