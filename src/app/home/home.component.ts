@@ -31,6 +31,7 @@ export class HomeComponent {
           },
           error: (error: any) => {
             console.log(error);
+            this.isLoading = false;
           },
           complete: () => {
             this.isLoading = false;
@@ -57,6 +58,7 @@ export class HomeComponent {
       },
       (error: any) => {
         console.log(error);
+        this.isLoading = false;
       },
       () => {
         this.isLoading = false;
