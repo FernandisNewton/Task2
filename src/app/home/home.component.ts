@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
+  catchError,
   debounceTime,
   fromEvent,
   Subject,
@@ -49,6 +50,7 @@ export class HomeComponent implements OnDestroy{
   searchArtists() {
     this.isLoading = true;
     this.artsyService.getArtists(this.artistName).pipe(
+      catchError((err,caught)=>err),
       takeUntil(this.destroy$)
     ).subscribe({
       next: (results: any) => {
