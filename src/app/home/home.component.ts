@@ -63,6 +63,7 @@ export class HomeComponent implements OnDestroy{
   }
 
   onCardClick(artist: any) {
+    this.artistBio =null;
     this.showTabs = true;
     this.artsyService.getArtistInfo(artist).pipe(
       takeUntil(this.destroy$)

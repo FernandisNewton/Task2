@@ -1,4 +1,7 @@
 <div class="row m-4">
+  <div *ngIf="artworks._embedded.artworks.length==0" class="alert alert-danger w-100" role="alert">
+    No Artworks
+ </div>
   <div *ngFor="let art of artworks._embedded.artworks" class="col-12 col-sm-6 col-md-4 col-lg-3">
     <div class="card h-100 mt-2">
       <img

@@ -29,7 +29,11 @@
       </div>
     </div>
   </ng-container>
+ 
   <div id="card_container" class="row flex-row flex-nowrap mt-5">
+    <div *ngIf="artistName && !isLoading && artistInfo.length==0" class="alert alert-danger w-100" role="alert">
+      No results for {{artistName}}
+   </div>
     <div
       *ngFor="let artist of artistInfo"
       class="col-12 col-sm-6 col-md-4 col-lg-3"
