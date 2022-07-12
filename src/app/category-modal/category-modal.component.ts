@@ -7,9 +7,8 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './category-modal.component.html',
   styleUrls: ['./category-modal.component.scss'],
 })
-export class CategoryModalComponent implements OnInit,OnDestroy {
-  
-  private destroy$ = new Subject()
+export class CategoryModalComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject();
 
   constructor(
     private artsyService: ArtsyService,
@@ -17,17 +16,18 @@ export class CategoryModalComponent implements OnInit,OnDestroy {
   ) {}
 
   genesData?: any[];
-  
+
   ngOnInit(): void {
-    this.artsyService.getGenes(this.data).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((value: any) => {
-      this.genesData = value;
-    });
+    this.artsyService
+      .getGenes(this.data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: any) => {
+        this.genesData = value;
+      });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(1)
+    this.destroy$.next(1);
     this.destroy$.complete();
   }
 }

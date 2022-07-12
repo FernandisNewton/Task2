@@ -2,9 +2,9 @@
   <div *ngIf="genesData; else loading" class="row">
     <div
       *ngFor="let genes of genesData"
-      class="col-12 col-sm-6 col-md-4 col-lg-3"
+      class="col-12 col-sm-6 col-md-4 col-lg-3 align-items-stretch"
     >
-      <div class="card">
+      <div class="card card-body flex-fill">
         <img
           src="{{ genes._links.thumbnail.href }}"
           class="card-img-top"
