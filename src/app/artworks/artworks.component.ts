@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryModalComponent } from '../category-modal/category-modal.component';
- 
 
 @Component({
   selector: 'app-artworks',

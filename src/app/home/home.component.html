@@ -29,18 +29,22 @@
       </div>
     </div>
   </ng-container>
- 
+
   <div id="card_container" class="row flex-row flex-nowrap mt-5">
-    <div *ngIf="artistName && !isLoading && artistInfo.length==0" class="alert alert-danger w-100" role="alert">
-      No results for {{artistName}}
-   </div>
+    <div
+      *ngIf="artistName && !isLoading && artistInfo.length == 0"
+      class="alert alert-danger w-100"
+      role="alert"
+    >
+      No results for {{ artistName }}
+    </div>
     <div
       *ngFor="let artist of artistInfo"
       class="col-12 col-sm-6 col-md-4 col-lg-3"
     >
       <div (click)="onCardClick(artist)" class="card">
         <img
-          src="{{ artist._links.thumbnail.href}}" 
+          src="{{ artist._links.thumbnail.href }}"
           class="card-img-top"
           alt="..."
         />
@@ -50,16 +54,21 @@
       </div>
     </div>
   </div>
-  <mat-tab-group class="mt-5" style='min-height:400px' *ngIf="showTabs"  mat-align-tabs="center">
+  <mat-tab-group
+    class="mt-5"
+    style="min-height: 400px"
+    *ngIf="showTabs"
+    mat-align-tabs="center"
+  >
     <mat-tab label="Artist Info">
       <app-artist-info
         [artistInfo]="artistBio.artistInfo"
-        *ngIf="artistBio else loading"
+        *ngIf="artistBio; else loading"
       ></app-artist-info>
     </mat-tab>
     <mat-tab label="Artowrks">
-        <app-artworks
-        *ngIf="artistBio else loading"
+      <app-artworks
+        *ngIf="artistBio; else loading"
         [artworks]="artistBio.artworks"
       ></app-artworks>
     </mat-tab>
@@ -72,5 +81,4 @@
       </div>
     </div>
   </ng-template>
-
 </div>
