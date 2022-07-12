@@ -29,11 +29,6 @@ export class HomeComponent implements OnDestroy{
     fromEvent(this.inputElement?.nativeElement, 'keyup')
       .pipe(debounceTime(500),takeUntil(this.destroy$))
       .subscribe((input: any) => {
-        if(input.target.value.length == 0){
-          console.log("reset");
-          
-          this.resetData();
-        }
         this.isLoading = true;
         this.artistName = input.target.value;
         this.searchArtists();
@@ -48,6 +43,7 @@ export class HomeComponent implements OnDestroy{
     this.isLoading = false;
   }
   searchArtists() {
+    this.resetData()
     this.isLoading = true;
     this.artsyService.getArtists(this.artistName).pipe(
       catchError((err,caught)=>err),
