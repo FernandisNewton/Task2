@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, mergeMap, tap, throwError } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap, throwError } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
@@ -52,7 +52,7 @@ export class ArtsyInterceptorService implements HttpInterceptor {
           tap((data: any) => {
             console.log(data);
           }),
-          mergeMap((data: any) => {
+          switchMap((data: any) => {
             if (data.token !== '') {
               this.tokenStorageService.saveToken(data.token);
             } else {
