@@ -12,11 +12,18 @@
         />
         <button
           (click)="searchArtists()"
-          class="btn btn-outline-primary ml-2"
+          class="btn btn-primary ml-2"
           type="submit"
         >
           Search
         </button>
+        <button
+        (click)="clearSearchBox()"
+        class="btn btn-outline-dark ml-2"
+        type="submit"
+      >
+        Clear
+      </button>
       </div>
     </div>
     <div class="col-sm-2"></div>
@@ -36,7 +43,7 @@
       class="alert alert-danger w-100"
       role="alert"
     >
-      No results for {{ artistName }}
+      No results for {{ artistName}}
     </div>
     <div
       *ngFor="let artist of artistInfo"

@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, mergeMap, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, switchMap, tap, throwError } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({

@@ -7,7 +7,8 @@ import { ArtsyService } from '../services/artsy.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnDestroy {
-  @ViewChild('searchInput') inputElement?: ElementRef;
+  @ViewChild('searchInput')
+  inputElement!: ElementRef;
 
   private destroy$ = new Subject();
 
@@ -29,10 +30,17 @@ export class HomeComponent implements OnDestroy {
   }
 
   resetData(): void {
+    
     this.artistInfo = [];
     this.artistBio = null;
     this.showTabs = false;
     this.isLoading = false;
+  }
+
+  clearSearchBox(){
+    this.inputElement.nativeElement.value = ''
+    this.artistName = "";
+    this.resetData();
   }
   searchArtists() {
     this.resetData();
@@ -55,6 +63,7 @@ export class HomeComponent implements OnDestroy {
           this.isLoading = false;
         },
       });
+      
   }
 
   onCardClick(artist: any) {
