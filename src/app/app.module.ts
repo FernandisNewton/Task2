@@ -13,16 +13,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ArtistInfoComponent } from './artist-info/artist-info.component';
 import { ArtworksComponent } from './artworks/artworks.component';
 import { CategoryModalComponent } from './category-modal/category-modal.component';
+import { PagingPipe } from './pipes/paging.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-
     HomeComponent,
     ArtistInfoComponent,
     ArtworksComponent,
     CategoryModalComponent,
+    PagingPipe,
   ],
   imports: [
     BrowserModule,
