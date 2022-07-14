@@ -12,10 +12,17 @@
         />
         <button
           (click)="searchArtists()"
-          class="btn btn-outline-primary ml-2"
+          class="btn btn-primary ml-2"
           type="submit"
         >
           Search
+        </button>
+        <button
+          (click)="clearSearchBox()"
+          class="btn btn-outline-dark ml-2"
+          type="submit"
+        >
+          Clear
         </button>
       </div>
     </div>
@@ -39,7 +46,7 @@
       No results for {{ artistName }}
     </div>
     <div
-      *ngFor="let artist of artistInfo"
+      *ngFor="let artist of artistInfo | paging: currentPageIndex:pageSize"
       class="col-12 col-sm-6 col-md-4 col-lg-3"
     >
       <div (click)="onCardClick(artist)" class="card">
@@ -54,8 +61,24 @@
       </div>
     </div>
   </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <ul class="pagination justify-content-center">
+        <li
+          class="page-item"
+          *ngFor="let page of pages"
+          (click)="onPageIndexClicked(page.pageIndex)"
+          [ngClass]="{'active':page.pageIndex==currentPageIndex}"
+        >
+          <a href="#" class="page-link" onclick="return false">{{
+            page.pageIndex + 1
+          }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
   <mat-tab-group
-    class="mt-5"
+    class="mt-3"
     style="min-height: 400px"
     *ngIf="showTabs"
     mat-align-tabs="center"

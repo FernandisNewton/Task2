@@ -7,7 +7,8 @@ import { ArtsyService } from '../services/artsy.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnDestroy {
-  @ViewChild('searchInput') inputElement?: ElementRef;
+  @ViewChild('searchInput')
+  inputElement!: ElementRef;
 
   private destroy$ = new Subject();
 
@@ -17,6 +18,9 @@ export class HomeComponent implements OnDestroy {
   isLoading?: boolean;
   artistBio?: any = null;
   showTabs: boolean = false;
+  currentPageIndex: number = 0;
+  pages: any[] = [];
+  pageSize: number = 4;
 
   ngAfterViewInit() {
     fromEvent(this.inputElement?.nativeElement, 'keyup')
@@ -28,11 +32,31 @@ export class HomeComponent implements OnDestroy {
       });
   }
 
+  calculateNumberOfPages(): void {
+    let numberOfPages = Math.ceil(this.artistInfo.length / this.pageSize);
+    this.pages = [];
+    for (let i = 0; i < numberOfPages; i++) {
+      this.pages.push({ pageIndex: i });
+    }
+    this.currentPageIndex = 0;
+  }
+
+  onPageIndexClicked(pageIndex:number){
+    this.currentPageIndex = pageIndex;
+  }
+
   resetData(): void {
     this.artistInfo = [];
     this.artistBio = null;
     this.showTabs = false;
     this.isLoading = false;
+    this.pages=[]
+  }
+
+  clearSearchBox() {
+    this.inputElement.nativeElement.value = '';
+    this.artistName = '';
+    this.resetData();
   }
   searchArtists() {
     this.resetData();
@@ -46,6 +70,7 @@ export class HomeComponent implements OnDestroy {
       .subscribe({
         next: (results: any) => {
           this.artistInfo = results;
+          this.calculateNumberOfPages();
         },
         error: (error: any) => {
           console.log(error);
