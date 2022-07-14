@@ -28,9 +28,6 @@ export class ArtsyInterceptorService implements HttpInterceptor {
         null
       )
       .pipe(
-        tap((res) => {
-          console.log('RES', res);
-        }),
         map((response: any) => {
           return {
             token: response.token,
@@ -49,9 +46,6 @@ export class ArtsyInterceptorService implements HttpInterceptor {
     return next.handle(clonedRequest).pipe(
       catchError((err) => {
         return this.refreshToken().pipe(
-          tap((data: any) => {
-            console.log(data);
-          }),
           switchMap((data: any) => {
             if (data.token !== '') {
               this.tokenStorageService.saveToken(data.token);

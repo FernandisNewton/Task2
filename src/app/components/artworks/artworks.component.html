@@ -20,7 +20,11 @@
         <div class="mt-auto">
           <h5 class="card-title">{{ art.collecting_institution }}</h5>
           <p class="card-text">{{ art.date }}</p>
-          <a (click)="openDialog(art)" class="btn btn-primary w-100"
+          <a
+            (debounceClick)="openDialog(art)"
+            appDebounceClick
+            [debounceTime]="500"
+            class="btn btn-primary w-100"
             >Category</a
           >
         </div>

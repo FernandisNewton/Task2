@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { ArtsyService } from '../services/artsy.service';
+import { ArtsyService } from '../../services/artsy.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 @Component({
