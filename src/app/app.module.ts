@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-
-import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ArtsyInterceptorService } from './services/artsy-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ArtistInfoComponent } from './artist-info/artist-info.component';
-import { ArtworksComponent } from './artworks/artworks.component';
-import { CategoryModalComponent } from './category-modal/category-modal.component';
+import { ArtistInfoComponent } from './components/artist-info/artist-info.component';
+import { ArtworksComponent } from './components/artworks/artworks.component';
+import { CategoryModalComponent } from './components/category-modal/category-modal.component';
 import { PagingPipe } from './pipes/paging.pipe';
+import { DebounceClickDirective } from './directives/debounce-click.directive';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { PagingPipe } from './pipes/paging.pipe';
     ArtworksComponent,
     CategoryModalComponent,
     PagingPipe,
+    DebounceClickDirective,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +40,7 @@ import { PagingPipe } from './pipes/paging.pipe';
       useClass: ArtsyInterceptorService,
       multi: true,
     },
+    Title
   ],
   bootstrap: [AppComponent],
 })

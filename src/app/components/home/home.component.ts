@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { catchError, debounceTime, fromEvent, Subject, takeUntil } from 'rxjs';
-import { ArtsyService } from '../services/artsy.service';
+import { ArtsyService } from '../../services/artsy.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -41,7 +41,7 @@ export class HomeComponent implements OnDestroy {
     this.currentPageIndex = 0;
   }
 
-  onPageIndexClicked(pageIndex:number){
+  onPageIndexClicked(pageIndex: number) {
     this.currentPageIndex = pageIndex;
   }
 
@@ -50,7 +50,7 @@ export class HomeComponent implements OnDestroy {
     this.artistBio = null;
     this.showTabs = false;
     this.isLoading = false;
-    this.pages=[]
+    this.pages = [];
   }
 
   clearSearchBox() {
@@ -59,27 +59,29 @@ export class HomeComponent implements OnDestroy {
     this.resetData();
   }
   searchArtists() {
-    this.resetData();
-    this.isLoading = true;
-    this.artsyService
-      .getArtists(this.artistName)
-      .pipe(
-        catchError((err, caught) => err),
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (results: any) => {
-          this.artistInfo = results;
-          this.calculateNumberOfPages();
-        },
-        error: (error: any) => {
-          console.log(error);
-          this.isLoading = false;
-        },
-        complete: () => {
-          this.isLoading = false;
-        },
-      });
+    if (this.artistName) {
+      this.resetData();
+      this.isLoading = true;
+      this.artsyService
+        .getArtists(this.artistName)
+        .pipe(
+          catchError((err) => err),
+          takeUntil(this.destroy$)
+        )
+        .subscribe({
+          next: (results: any) => {
+            this.artistInfo = results;
+            this.calculateNumberOfPages();
+          },
+          error: (error: any) => {
+            console.log(error);
+            this.isLoading = false;
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
+    }
   }
 
   onCardClick(artist: any) {
